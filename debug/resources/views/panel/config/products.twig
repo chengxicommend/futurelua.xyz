@@ -1,0 +1,77 @@
+{% extends 'app.twig' %}
+
+{% block content %}
+    <div class="container">
+        <div class="card text-center">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path_for('panel.configs') }}">{{ 'back' | trans }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path_for('panel') }}">{{ 'home' | trans }}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-header card-header-2" id="tabs">
+                <ul class="nav nav-pills card-header-pills" id="second-tab">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#tabs-1">{{ 'config_luas' | trans }}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div id="tabs-1">
+                    <h3>{{ 'config_luas' | trans }}</h3>
+                    {% if availProducts|length > 0 %}
+                    <form action="{{ path_for('panel.config.products.add', {id: config.id}) }}">
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">{{ 'luas' | trans }}</div>
+                            </div>
+                            <select class="form-control" id="product_name" name="product_name">
+                                {% for product in availProducts %}
+                                    <option value="{{ product.id }}">
+                                        {{ product.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group mb-0 row">
+                            <div class="col-12 mt-2">
+                                <button class="btn btn-primary btn-block waves-effect waves-light" name="login"
+                                        type="submit">{{ 'add' | trans }} <i class="fas fa-sign-in-alt ml-1"></i></button>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <br>
+                        <table id="ccTable" class="table list-item padded"
+                               style="color: #adb1bd; border-color: transparent; ">
+                            <thead>
+                            <tr class="links">
+                                <th>{{ 'name' | trans }}</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for product in products %}
+                                <tr class="list-item" style="height: 62px; margin: auto; background-color: #272636">
+                                    <td>{{ product.name }}</td>
+                                    <td>
+                                        <a href="{{ path_for('panel.config.products.delete', {id: config.id, productid: product.id}) }}"
+                                           style="margin-left: 10px; color: #adb1bd; text-decoration: none" >
+                                            <i class="mdi mdi-delete ml-1 mdi-24px"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

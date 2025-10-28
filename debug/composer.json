@@ -1,0 +1,22 @@
+{
+  "require": {
+    "ext-json": "*",
+    "ext-curl": "*",
+
+    "slim/slim": "^3.0",
+    "slim/twig-view": "^2.3",
+    "illuminate/database": "^5.5",
+    "slim/flash": "^0.4.0",
+    "twig/extensions": "1.2",
+    "symfony/translation": "2.7.3",
+    "symfony/twig-bridge": "2.7.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app"
+    },
+    "files": [
+      "bootstrap/functions.php"
+    ]
+  }
+}

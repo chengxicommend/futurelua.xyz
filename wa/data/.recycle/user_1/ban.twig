@@ -1,0 +1,18 @@
+{% extends "app.twig" %}
+
+{% block content %}
+    <div class="container">
+    <div class="card text-center">
+        <div class="card-header">
+            <ul class="nav nav-pills card-header-pills">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Banned</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+                <p>您因为违反了规则而被Future封禁: {{ user.ban_reason }}</p>
+        </div>
+    </div>
+    </div>
+{% endblock %}

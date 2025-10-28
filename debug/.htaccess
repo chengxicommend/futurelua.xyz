@@ -1,0 +1,14 @@
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
+
+Options +MultiViews +FollowSymLinks
+Options -Indexes
+
+DirectoryIndex index.php
+
+<FilesMatch "\.(htaccess|htpasswd|inc|log|sql|user|token)$">
+        Order Allow,Deny
+        Deny from all
+</FilesMatch>

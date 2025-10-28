@@ -1,0 +1,195 @@
+{% extends 'app.twig' %}
+{% block content %}
+    <div class="container" style="max-height: 95%">
+        <div class="card text-center">
+            <div class="card-header">
+                <div style="display: flex; flex-direction: row; justify-content: space-between">
+                    <ul class="nav nav-pills card-header-pills" id="first-tab">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#container-1">{{ "home"|trans }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path_for("panel.download") }}">{{ "download"|trans }}</a>
+                        </li>
+                    </ul>
+                    <div style="display: flex; flex-direction: row; justify-content: space-between">
+                        <img src="/public/themes/img/{{ language == "en" ? "en" : "cn"  }}.png" alt="switch language"
+                             width="24" height="24" style="margin-right: 10px; margin-top: 4px"
+                             onclick="window.open('{{ path_for('switch-language') }}', '_self')" role="button">
+                        <div style="margin: auto 0;">
+                            <h4>{{ "user:"|trans }} {{ user.name }}.</h4>
+                        </div>
+                        <a href="{{ path_for('logout') }}" aria-label="log out btn"
+                           style="margin-left: 10px; margin-top: 5px; color: #dc3545"><i
+                                    class="fas fa-sign-in-alt ml-1"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div id="container-1">
+                <div class="card-header card-header-2" id="tabs">
+                    <ul class="nav nav-pills card-header-pills" id="second-tab">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tabs-1">{{ "profile"|trans }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tabs-2">{{ "personalization"|trans }}</a>
+                        </li>
+                        {% if user.permission_level == 1 or displayUsers or isGroupAdmin %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="#tabs-4">{{ "administrator"|trans }}</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div id="tabs-1">
+                        <h3>{{ "user_statistics"|trans }}</h3>
+                        <div class="card-container padded">
+                            <h4>{{ "uid:"|trans }} <span style="color: white">{{ user.id }}</span></h4>
+                            <h4>{{ "registered:"|trans }} <span
+                                        style="color: white">{{ user.created_at|date("M j Y") }}</span></h4>
+                            <h4>{{ "invited_by:"|trans }} <span style="color: white">{{ user.inviter.name }}</span></h4>
+                            <h4>{{ "role:"|trans }} <span style="color: white">{{ permissionLevel?: "N/A" }}</span>
+                            </h4>
+                        </div>
+                        <br>
+
+                        {% if groups | length > 0 %}
+                            <h3>{{ "groups"|trans }}</h3>
+                            <div class="card-container" style="overflow-y: scroll; max-height: 150px">
+                                {% for group in groups %}
+                                    <div class="list-item padded">
+                                        <h4><span style="color: white">{{ group.name }}</span> : <span
+                                                    style="color: limegreen">Active</span></h4>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <br>
+                        {% endif %}
+
+                        <h3>{{ "invite_codes"|trans }}</h3>
+                        <div class="card-container" style="overflow-y: scroll; max-height: 150px">
+                            {% if invitations | length == 0 %}
+                                <div class="list-item padded">
+                                    {{ "you_have_no_invite_codes"|trans }}
+                                </div>
+                            {% else %}
+                                {% for invitation in invitations %}
+                                    <div class="list-item padded"
+                                         style="display: flex; flex-direction: row; justify-content: space-between">
+                                        <h4>{{ invitation.code }}</h4>
+                                        <h4>{{ invitation.permission_level == 4 ? "Beta" : "Normal" }}</h4>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div id="tabs-2" style="display: none">
+                        <h3>{{ "email_address"|trans }}</h3>
+                        <div class="card-container padded">
+                            <form action="{{ path_for('panel.user.change.email') }}" method="GET">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <label for="register-email"></label>
+                                        <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon2"><i
+                                                    class="mdi mdi-inbox font-16"></i></span>
+                                        </div>
+                                        <input type="email" class="form-control" id="register-email" name="email"
+                                               placeholder="{{ 'enter_email'|trans }}" value="{{ user.email }}">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-0 row">
+                                    <div class="col-12 mt-2">
+                                        <button class="btn btn-primary btn-block waves-effect waves-light" name="login"
+                                                type="submit">{{ 'change'|trans }} <i
+                                                    class="fas fa-sign-in-alt ml-1"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <br>
+                    </div>
+                    {% if user.permission_level == 1 or displayUsers or isGroupAdmin %}
+                        <div id="tabs-4" style="display: none">
+                            <h3>{{ 'administration_tools' | trans }}</h3>
+                            <div class="card-container" style="overflow-y: scroll;">
+                                {% if user.permission_level == 1 or displayUsers %}
+                                    <div class="list-item padded"
+                                         style="display: flex; flex-direction: row; justify-content: space-between">
+                                        <h4 style="margin: auto 0;">{{ 'manage_users' | trans }}</h4>
+                                        <a href="{{ path_for('panel.users') }}" aria-label="log out btn"
+                                           style="margin-left: 10px; color: #adb1bd"><i
+                                                    class="mdi mdi-account-edit ml-1 mdi-24px"></i></a>
+                                    </div>
+                                {% endif %}
+
+                                {% if isGroupAdmin %}
+                                    <div class="list-item padded"
+                                         style="display: flex; flex-direction: row; justify-content: space-between">
+                                        <h4 style="margin: auto 0;">{{ 'manage_products' | trans }}</h4>
+                                        <a href="{{ path_for('panel.products') }}" aria-label="log out btn"
+                                           style="margin-left: 10px; color: #adb1bd"><i
+                                                    class="mdi mdi-folder-edit ml-1 mdi-24px"></i></a>
+                                    </div>
+
+                                    <div class="list-item padded"
+                                         style="display: flex; flex-direction: row; justify-content: space-between">
+                                        <h4 style="margin: auto 0;">{{ 'manage_configs' | trans }}</h4>
+                                        <a href="{{ path_for('panel.configs') }}" aria-label="log out btn"
+                                           style="margin-left: 10px; color: #adb1bd"><i
+                                                    class="mdi mdi-book-edit ml-1 mdi-24px"></i></a>
+                                    </div>
+                                    
+                                      <div class="list-item padded"
+                                            style="display: flex; flex-direction: row; justify-content: space-between">
+                                            <h4 style="margin: auto 0;">{{ 'manage_helpers' | trans }}</h4>
+                                            <a href="{{ path_for('panel.helper') }}" aria-label="log out btn"
+                                            style="margin-left: 10px; color: #adb1bd"><i
+                                                        class="mdi mdi-map-check ml-1 mdi-24px"></i></a>
+                                        </div>
+
+                            
+                                 {% endif %}    
+
+                                {%  if user.permission_level == 1  or isGroupAdmin  %} 
+                                 <div class="list-item padded"
+                                         style="display: flex; flex-direction: row; justify-content: space-between">
+                                        <h4 style="margin: auto 0;">{{ 'manage_groups' | trans }}</h4>
+                                        <a href="{{ path_for('panel.groups') }}" aria-label="log out btn"
+                                           style="margin-left: 10px; color: #adb1bd"><i
+                                                    class="mdi mdi-account-group ml-1 mdi-24px"></i></a>
+                                    </div>
+                                {% endif %}
+
+                                {% if user.permission_level == 1 or user.permission_level == 4%}
+                                    <div class="list-item padded"
+                                         style="display: flex; flex-direction: row; justify-content: space-between">
+                                        <h4 style="margin: auto 0;">{{ 'manage_invites' | trans }}</h4>
+                                        <a href="{{ path_for('panel.invitations') }}" aria-label="log out btn"
+                                           style="margin-left: 10px; color: #adb1bd"><i
+                                                    class="mdi mdi-key ml-1 mdi-24px"></i></a>
+                                    </div>
+                                {% endif %}
+                               
+                           
+
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>Developed by <a style="color: firebrick" href="https://samhoque.dev">SamHoque.dev</a> V2 Update by <a style="color: firebrick" href="http://da0rkam.me/">da0rkam.me</a> | &copy; Future Lua
+            inc.</p>
+    </footer>
+    <script>
+        $(document).ready(function () {
+            initTabs('first-tab');
+            initTabs('second-tab');
+            initTabs('third-tab');
+        });
+    </script>
+{% endblock %}

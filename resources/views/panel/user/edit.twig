@@ -1,0 +1,185 @@
+{% extends 'app.twig' %}
+
+{% block content %}
+    <div class="container">
+        <div class="card text-center">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path_for('panel.users') }}">{{ 'back'|trans }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path_for('panel') }}">{{ 'home'|trans }}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-header card-header-2" id="tabs">
+                <ul class="nav nav-pills card-header-pills" id="second-tab">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#tabs-1">{{ 'edit_user'|trans }}</a>
+                    </li>
+                    {% if user.hwid != "" and user.hwid_mismatch != "" %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tabs-2">{{ 'manage_hwid'|trans }}</a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tabs-3">{{ 'groups'|trans }}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div id="tabs-1">
+                    <form action="{{ path_for('panel.user.edit', {id: user.id}) }}" method="post">
+                        <fieldset>
+                            <h3>{{ 'edit_user_information' | trans }}</h3>
+                            <div class="infldset">
+                                <div class="form-group">
+                                    {% if panelUser.permission_level == 1 %}
+                                        <label for="username"></label>
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">{{ 'username' | trans }}</div>
+                                            </div>
+                                            <input type="text" class="form-control" id="username"
+                                                   name="username"
+                                                   placeholder="{{ 'enter_username' | trans }}"
+                                                   value="{{ user.name }}">
+                                        </div>
+
+                                        <label for="password"></label>
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">{{ 'password' | trans }}</div>
+                                            </div>
+                                            <input type="search" class="form-control" id="password"
+                                                   name="password"
+                                                   placeholder="{{ 'enter_password' | trans }}">
+                                        </div>
+
+                                        <label for="permission_level"></label>
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">{{ 'primary_group' | trans }}</div>
+                                            </div>
+                                            <select class="form-control" id="permission_level" name="permission_level">
+                                                {% for permission in permissions %}
+                                                    <option value="{{ permission }}" {{ ((user.permission_level == 1 and permission == "Admin") or (user.permission_level == 2 and permission == "User")) ? 'selected' }}>
+                                                        {{ permission }}
+                                                    </option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+
+                                    {% endif %}
+
+
+                                    <div style="padding-bottom: 10px; padding-top: 5px">
+                                        <label class="form-check-label" for="banned" style="display: contents;">
+                                            {{ 'banned' | trans }}
+                                        </label>
+                                        <input class="form-check-input" type="checkbox" id="banned"
+                                               name="banned"{{ user.banned == 1 ? "checked " }}>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="form-group mb-0 row">
+                            <div class="col-12 mt-2">
+                                <button class="btn btn-primary btn-block waves-effect waves-light" name="login"
+                                        type="submit">{{ 'save' | trans }} <i class="fas fa-sign-in-alt ml-1"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                {% if user.hwid != "" and user.hwid_mismatch != "" %}
+                    <div id="tabs-2" style="display: none">
+                        {% if user.hwid != "" %}
+                            <h3>{{ 'current_hwid' | trans }}</h3>
+                            <div class="card-container padded">
+                                {% for key,value in user.hwid_decoded %}
+                                    <h4>{{ key }}: <span style="color: white">{{ value }}</span></h4>
+                                {% endfor %}
+                            </div>
+                            <br>
+                        {% endif %}
+
+                        {% if user.hwid_mismatch != "" %}
+                            <h3>{{ 'new_hwid' | trans }}</h3>
+                            <div class="card-container padded">
+                                {% for key,value in user.hwid_mismatch_decoded %}
+                                    <h4>{{ key }}: <span style="color: white">{{ value }}</span></h4>
+                                {% endfor %}
+                            </div>
+                            <br>
+                        {% endif %}
+                        {% if user.hwid != "" %}
+                            <a class="btn btn-primary btn-block waves-effect waves-light"
+                               href="{{ path_for('panel.user.reset.hwid', {id: user.id}) }}"
+                               type="submit">{{ 'reset_hwid' | trans }} <i class="fas fa-sign-in-alt ml-1"></i></a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+                <div id="tabs-3" style="display: none">
+                    <h3>{{ 'manage_user_groups' | trans }}</h3>
+                    {% if availGroups|length > 0 %}
+                    <form action="{{ path_for('panel.user.group.add', {id: user.id}) }}">
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">{{ 'groups' | trans }}</div>
+                            </div>
+                            <select class="form-control" id="group_name" name="group_name">
+                                {% for group in availGroups %}
+                                    <option value="{{ group.id }}">
+                                        {{ group.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group mb-0 row">
+                            <div class="col-12 mt-2">
+                                <button class="btn btn-primary btn-block waves-effect waves-light" name="login"
+                                        type="submit">{{ 'add'| trans }} <i class="fas fa-sign-in-alt ml-1"></i></button>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <br>
+                        <table id="ccTable" class="table list-item padded"
+                               style="color: #adb1bd; border-color: transparent; ">
+                            <thead>
+                            <tr class="links">
+                                <th>{{ 'name' | trans }}</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for group in additionalGroups %}
+                                <tr class="list-item" style="height: 62px; margin: auto; background-color: #272636">
+                                    <td>{{ group.name }}</td>
+                                    <td>
+                                        <a href="{{ path_for('panel.user.group.delete', {id: group.id, userid: user.id}) }}"
+                                           style="margin-left: 10px; color: #adb1bd; text-decoration: none">
+                                            <i class="mdi mdi-delete ml-1 mdi-24px"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#ccTable').DataTable({
+                "bLengthChange": false,
+                "pageLength": 5
+            });
+        });
+        initTabs('second-tab');
+    </script>
+{% endblock %}

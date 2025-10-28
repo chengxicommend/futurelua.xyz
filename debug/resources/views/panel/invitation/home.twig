@@ -1,0 +1,73 @@
+{% extends 'app.twig' %}
+
+{% block content %}
+    <div class="container">
+        <div class="card text-center">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path_for('panel') }}">{{ 'back' | trans }}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-header card-header-2" id="tabs">
+                <ul class="nav nav-pills card-header-pills" id="second-tab">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#tabs-1">{{ 'manage_invites' | trans }}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div id="tabs-1">
+                    <h3>{{ 'manage_invites' | trans }}</h3>
+
+                    <div class="infldset">
+                        {% if user.permission_level == 1 or user.permission_level == 4 %}
+                            <div class="form-group mb-0 row">
+                                <div class="col-12 mt-2">
+                                    <a class="btn btn-primary btn-block waves-effect waves-light"
+                                       type="submit" href="{{ path_for('panel.invitation.create') }}">{{ 'generate_invite' }} <i class="fas fa-sign-in-alt ml-1"></i></a>
+
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="flex-center position-ref full-height" style="padding-top: 15px">
+                            <div class="content">
+                                <table id="ccTable" class="table list-item padded"
+                                       style="color: #adb1bd; border-color: transparent">
+                                    <thead>
+                                    <tr class="links">
+                                        <th>{{ 'code' | trans }}</th>
+                                        <th>{{ 'group' | trans }}</th>
+                                        <th>{{ 'inviter'| trans }}</th>
+                                        <th>{{ 'invitee' | trans }}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for invitation in invitations %}
+                                        <tr class="list-item"
+                                            style="height: 62px; margin: auto; background-color: #272636">
+                                            <td>{{ invitation.code }}</td>
+                                            <td>{{ invitation.permission_level }}</td>
+                                            <td>{{ invitation.inviter.name }}</td>
+                                            <td>{{ invitation.invitee ? invitation.invitee.name : "-" }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <script>
+                            $(document).ready(function () {
+                                $('#ccTable').DataTable({
+                                    "bLengthChange": false
+                                });
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+            <div class="clearer"></div>
+        </div>
+    </div>
+{% endblock %}

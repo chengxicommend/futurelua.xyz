@@ -1,0 +1,151 @@
+{% extends 'app.twig' %}
+
+{% block content %}
+    <div class="container">
+        <div class="card text-center">
+
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path_for('panel') }}">{{"back" | trans}}</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="container-1">
+                <div class="card-header card-header-2" id="tabs">
+                    <ul class="nav nav-pills card-header-pills" id="manage-group-tab">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tabs-1">{{ "normal_group" | trans }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tabs-2"> {{"reseller_groups" | trans }}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-body">
+
+                    <div id="tabs-1">
+                        <form>
+                            <div class="infldset">
+                                <div class="flex-center position-ref full-height" style="padding-top: 15px;max-height: 600px;">
+                                    <div class="content">
+                                        <table id="ccTable" class="table list-item padded"
+                                            style="color: #adb1bd; border-color: transparent;">
+                                            <thead>
+                                            <tr class="links">
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for group in groups %}
+                                                <tr class="list-item" style="height: 62px; margin: auto; background-color: #272636">
+                                                    <td>{{ group.id }}</td>
+                                                    <td>{{ group.name }}</td>
+                                                    <td>
+                                                        <a href="{{ path_for('panel.group.admins', {id: group.id}) }}"
+                                                        style="margin-left: 10px; color: #adb1bd; text-decoration: none" >
+                                                            <i title="admins" class="mdi mdi-account ml-1 mdi-24px"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                                <script>
+                                    $(document).ready(function () {
+                                        $('#ccTable').DataTable({
+                                            "bLengthChange": false,
+                                            "pageLength": 5
+                                        });
+                                    });
+                                </script>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="tabs-2" style="display: none">
+                    <form>
+                        {% if user.permission_level == 1 %}
+                            <h3>Manage groups</h3>
+                        {% endif %}
+                        <div class="infldset">
+                            {% if user.permission_level == 1 %}
+                                <div class="form-group mb-0 row">
+                                    <div class="col-12 mt-2">
+                                        <a class="btn btn-primary btn-block waves-effect waves-light"
+                                        type="submit" href="{{ path_for('panel.group.create') }}">Create Group <i
+                                                    class="fas fa-sign-in-alt ml-1"></i></a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div class="flex-center position-ref full-height" style="padding-top: 15px;max-height: 600px;">
+                                <div class="content">
+                                    <table id="ccTable1" class="table list-item padded"
+                                        style="color: #adb1bd; border-color: transparent;">
+                                        <thead>
+                                        <tr class="links">
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for group in groups %}
+                                            <tr class="list-item" style="height: 62px; margin: auto; background-color: #272636">
+                                                <td>{{ group.id }}</td>
+                                                <td>{{ group.name }}</td>
+                                                <td>
+                                                    {% if user.permission_level == 3 %}
+                                                        <a href="{{ path_for('panel.reseller.user', {id: group.id}) }}"
+                                                        style="margin-left: 10px; color: #adb1bd; text-decoration: none" >
+                                                            <i title="admins" class="mdi mdi-account ml-1 mdi-24px"></i>
+                                                        </a>
+                                                    {% else %}
+                                                        <a href="{{ path_for('panel.group.admins', {id: group.id}) }}"
+                                                        style="margin-left: 10px; color: #adb1bd; text-decoration: none" >
+                                                            <i title="admins" class="mdi mdi-account ml-1 mdi-24px"></i>
+                                                        </a>
+                                                    {% endif %}
+                                                    {% if user.permission_level == 1 %}
+                                                    <a href="{{ path_for('panel.group.delete', {id: group.id}) }}"
+                                                    style="margin-left: 10px; color: #adb1bd; text-decoration: none" >
+                                                        <i title="delete" class="mdi mdi-delete ml-1 mdi-24px"></i>
+                                                    </a>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                            <script>
+                                $(document).ready(function () {
+                                    $('#ccTable1').DataTable({
+                                        "bLengthChange": false,
+                                        "pageLength": 5
+                                    });
+                                });
+                            </script>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            initTabs('manage-group-tab');
+        });
+    </script>
+{% endblock %}

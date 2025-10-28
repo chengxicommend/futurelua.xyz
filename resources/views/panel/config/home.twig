@@ -1,0 +1,102 @@
+{% extends 'app.twig' %}
+{% block content %}
+    <div class="container">
+        <div class="card text-center">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path_for('panel') }}">{{ 'back' | trans }}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-header card-header-2" id="tabs">
+                <ul class="nav nav-pills card-header-pills" id="second-tab">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#tabs-1">{{ 'manage_configs' | trans }}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div id="tabs-1">
+                    <h3>{{ 'manage_configs' | trans }}</h3>
+                    <div class="form-group mb-0 row">
+                        <div class="col-12 mt-2">
+                            <a class="btn btn-primary btn-block waves-effect waves-light"
+                               type="submit" href="{{ path_for('panel.config.create') }}">{{ 'create_config' | trans }} <i
+                                        class="fas fa-sign-in-alt ml-1"></i></a>
+                        </div>
+                    </div>
+                    <table id="ccTable" class="table list-item padded"
+                           style="color: #adb1bd; border-color: transparent">
+                        <thead style="border-color: #adb1bd">
+                        <tr class="padded">
+                            <th>{{ 'name' | trans }}</th>
+                            <th>{{ 'version' | trans }}</th>
+                            <th>{{ 'group' | trans }}</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody style="border-radius: 12px">
+                        {% for config in configs %}
+                            <tr class="list-item" style="height: 62px; margin: auto; background-color: #272636">
+                                <td>{{ config.name }}</td>
+                                <td>{{ config.version }}</td>
+                                <td>{{ config.group.name }}</td>
+                                <td>
+                                    <div>
+                                        <a href="{{ path_for('panel.config.products', {id: config.id}) }}" aria-label="log out btn"
+                                           style="margin-left: 10px; color: #adb1bd"><i
+                                                    class="mdi mdi-folder-edit ml-1 mdi-24px"></i></a>
+                                        <a onclick="deleteProduct({{ config.id }})"  id="{{ config.id }}"
+                                           style="margin-left: 10px; color: #adb1bd; text-decoration: none; cursor: pointer">
+                                            <i class="mdi mdi-delete ml-1 mdi-24px"></i>
+                                        </a>
+                                        <a href="{{ path_for('panel.config.edit', {id: config.id}) }}"
+                                           style="margin-left: 10px; color: #adb1bd">
+                                            <i class="mdi mdi-cog ml-1 mdi-24px"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#ccTable').DataTable({
+                "bLengthChange": false,
+                "pageLength": 5
+            });
+        });
+
+        function deleteProduct(productID) {
+            Swal.fire({
+                title: '{{ 'warning' | trans }}',
+                text: '{{ 'do_you_want_to_delete_this_config' | trans }}',
+                icon: 'warning',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                showCancelButton: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "GET",
+                        url: "{{ path_for('panel.config.delete', {id: null}) }}" + productID,
+                        success: function () {
+                            Swal.fire('{{ 'config_delete_success' | trans }}', '', 'success').then(() => {
+                                $("#" + productID).parents().eq(2).remove();
+                            });
+                        }
+                    });
+                } else {
+                    Swal.fire('{{ 'config_not_deleted' | trans }}', '', 'info')
+                }
+            });
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="/public/themes/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="/public/themes/css/bootstrap.css" rel="stylesheet">
+    <link href="/public/themes/all.min.css" rel="stylesheet"/>
+    <link href="/public/themes/datatables.min.css" rel="stylesheet">
+    <link href="/public/themes/style.css" rel="stylesheet"/>
+    <link href="/public/themes/css/dark.css" rel="stylesheet">
+
+
+    <script src="/public/themes/js/sweetalert2.min.js"></script>
+    <title>FutureLua.xyz | Premium Lua Scripts</title>
+
+</head>
+<body style="height: 100% !important;">
+<script src="/public/themes/js/bootstrap.bundle.min.js"></script>
+<script src="/public/themes/js/jquery-3.6.0.min.js"></script>
+<script src="/public/themes/js/jquery-ui.min.js"></script>
+<script src="/public/themes/datatables.min.js"></script>
+<script>
+    function initTabs(id) {
+        $(`#${id} li`).click(function () {
+            var tabid = $(this).find('.nav-link').attr("href");
+            if(tabid.startsWith('#')) {
+                //Hide all of the other body's
+                const containers = $(`#${id} li a`);
+
+                containers.each(function () {
+                    if ($(this).attr("href").includes('#')) {
+                        $($(this).attr("href")).hide();
+                    }
+                });
+
+                //Remove all active classes
+                containers.removeClass('active');
+
+                //Add active class to current element
+                $(this).children('a').addClass('active');
+
+                //Show the current tab
+
+                $(tabid).show();
+
+                //Save our current selection
+                localStorage.setItem(id, $(this).index());
+
+                //Prevent default event
+                return false;
+            }
+        });
+
+        const curTab = parseInt(localStorage.getItem(id) || 0) + 1;
+        $(`#${id} li:nth-child(${curTab})`).click();
+    }
+</script>
+{% block content %}{% endblock %}
+</body>
+</html>

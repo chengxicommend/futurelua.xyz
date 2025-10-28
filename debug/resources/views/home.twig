@@ -1,0 +1,137 @@
+{% extends "app.twig" %}
+
+{% block content %}
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}
+            <br> DM us on QQ for support!
+        </div>
+    {% endif %}
+
+    <div class="container" style="max-height: 95%">
+        <div class="card text-center">
+            <div class="card-header">
+                <div style="display: flex; flex-direction: row; justify-content: space-between">
+                    <ul class="nav nav-pills card-header-pills">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">{{ "main"|trans }}</a>
+                        </li>
+                    </ul>
+                    <div style="display: flex; flex-direction: row; justify-content: space-between">
+                        <img src="/public/themes/img/{{ language == "cn" ? "en" : "cn" }}.png" alt="switch language" style="margin-top: 4px" width="24" height="24" onclick="window.open('{{ path_for('switch-language') }}', '_self')" role="button">
+                    </div>
+                </div>
+            </div>
+            <div class="card-header card-header-2" id="tabs">
+                <ul class="nav nav-pills card-header-pills" id="second-tab">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#tabs-1">{{ "login"|trans }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tabs-2">{{ "register"|trans }}</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card-body">
+                <div id="tabs-1">
+                    <form action="{{ path_for('signin') }}" method="POST">
+                        <div class="form-group">
+                            <label for="login-username"></label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"><i
+                                                class="mdi mdi-account-outline font-16"></i></span>
+                                </div>
+                                <input type="text" class="form-control" id="login-username" name="username"
+                                       placeholder="{{ "enter_username"|trans }}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group mb-3">
+                                <label for="login-password"></label>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon2"><i class="mdi mdi-key font-16"></i></span>
+                                </div>
+                                <input type="password" class="form-control" id="login-password" name="password"
+                                       placeholder="{{ "enter_password"|trans }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-0 row">
+                            <div class="col-12 mt-2">
+                                <button class="btn btn-primary btn-block waves-effect waves-light" name="login"
+                                        type="submit">{{ "log_in"|trans }} <i class="fas fa-sign-in-alt ml-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div id="tabs-2" style="display: none">
+                    <form action="{{ path_for('register') }}" method="POST">
+                        <div class="form-group">
+                            <label for="register-username"></label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"><i
+                                                class="mdi mdi-account-outline font-16"></i></span>
+                                </div>
+                                <input type="text" class="form-control" id="register-username" name="username"
+                                       placeholder="{{ "enter_username"|trans }}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group mb-3">
+                                <label for="register-password"></label>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon2"><i class="mdi mdi-key font-16"></i></span>
+                                </div>
+                                <input type="password" class="form-control" id="register-password" name="password"
+                                       placeholder="{{ "enter_password"|trans }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="input-group mb-3">
+                                <label for="register-email"></label>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon2"><i
+                                                class="mdi mdi-inbox font-16"></i></span>
+                                </div>
+                                <input type="email" class="form-control" id="register-email" name="email"
+                                       placeholder="{{ "enter_email"|trans }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="input-group mb-3">
+                                <label for="register-invite"></label>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon2"><i class="mdi mdi-key font-16"></i></span>
+                                </div>
+                                <input type="text" class="form-control" id="register-invite" name="invitation"
+                                       placeholder="{{ "enter_invite"|trans }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-0 row">
+                            <div class="col-12 mt-2">
+                                <button class="btn btn-primary btn-block waves-effect waves-light" name="login"
+                                        type="submit">{{ "register"|trans }} <i class="fas fa-sign-in-alt ml-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>Developed by <a style="color: firebrick" href="https://samhoque.dev">SamHoque.dev</a> | &copy; Future Lua
+            inc.</p>
+    </footer>
+    <script>
+        $(document).ready(function () {
+            initTabs('second-tab');
+        });
+    </script>
+{% endblock %}

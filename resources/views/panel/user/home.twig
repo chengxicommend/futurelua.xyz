@@ -1,0 +1,65 @@
+{% extends 'app.twig' %}
+{% block content %}
+    <div class="container">
+        <div class="card text-center">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path_for('panel') }}">{{ 'back'|trans }}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-header card-header-2" id="tabs">
+                <ul class="nav nav-pills card-header-pills" id="second-tab">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#tabs-1">{{ 'manage_user'|trans }}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div id="tabs-1">
+                    <table id="ccTable" class="table list-item padded" style="color: #adb1bd; border-color: transparent">
+                        <thead style="border-color: #adb1bd">
+                        <tr class="padded">
+                            <th>{{ 'uid'|trans }}</th>
+                            <th>{{ 'name'|trans }}</th>
+                            <th>{{ 'role'|trans }}</th>
+                            <th>{{ 'inviter'|trans }}</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody style="border-radius: 12px">
+                        <div class="card-container">
+                        {% for user in users %}
+                            <tr class="list-item" style="height: 62px; margin: auto; background-color: #272636">
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.name }}</td>
+                                <td>{{ user.permission_level }}</td>
+                                <td>{{ user.referer.name ?? "N/A" }}</td>
+                                <td>
+                                    <a href="{{ path_for('panel.user.edit', {id: user.id}) }}" style="margin-left: 10px; color: #adb1bd">
+                                        <i class="mdi mdi-cog ml-1 mdi-24px">
+                                        </i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </div>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="tabs-2" style="display: none">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#ccTable').DataTable({
+                "bLengthChange": false,
+                "pageLength": 5
+            });
+        });
+    </script>
+{% endblock %}

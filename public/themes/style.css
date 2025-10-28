@@ -1,0 +1,250 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100% !important;
+    background: #2E2A41;
+    color: white;
+    text-align: left;
+}
+
+.container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    background-color: #191B28;
+    border-radius: 15px;
+}
+
+.nav-pills .nav-link.active {
+    background-color: transparent;
+    color: #fcf6f0;
+}
+
+.nav-pills .nav-link {
+    background-color: transparent;
+    color: #6a6c72;
+}
+
+.card-header {
+    border-bottom: 1px solid #252734;
+}
+
+.card-header-2 .nav-pills .nav-link.active {
+    outline: none;
+    border-bottom: 2px solid #d9dbde;
+}
+
+.card-header-2 {
+    padding-bottom: 0;
+}
+
+.card {
+    min-width: 70%;
+}
+
+.nav-pills .nav-link {
+    border-radius: 0;
+}
+
+.g-recaptcha {
+    display: inline-block;
+}
+
+.waves-effect {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.btn-primary {
+    background-color: #3f3d52;
+    border: 1px solid #3f3d52;
+    -webkit-box-shadow: 0 2px 6px 0 #3f3d52;
+    box-shadow: 0 2px 6px 0 #3f3d52;
+}
+
+.btn {
+    border-radius: 3px;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.input-group-text {
+    font-size: 14px;
+    background-color: #3f3d52;
+    border: 1px solid #3f3d52;
+    color: #a8a8b1;
+}
+
+.form-control {
+    font-size: 14px;
+    border: 1px solid #3f3d52;
+    height: calc(2.1rem + 2px);
+    background-color: #272636;
+    color: #a8a8b1;
+}
+
+label {
+    font-weight: 500;
+    color: #6c757d;
+    font-size: 14px;
+}
+
+.input-group > .input-group-append:last-child > .btn:not(:last-child):not(.dropdown-toggle), .input-group > .input-group-append:last-child > .input-group-text:not(:last-child), .input-group > .input-group-append:not(:last-child) > .btn, .input-group > .input-group-append:not(:last-child) > .input-group-text, .input-group > .input-group-prepend > .btn, .input-group > .input-group-prepend > .input-group-text {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.alert.alert-danger {
+    color: #ffffff;
+    background-color: #f93b7a;
+    width: 55%;
+    margin: auto;
+    top: 20%;
+}
+
+.alert {
+    position: relative;
+    border: 0;
+}
+
+h3 {
+    display: block;
+    text-align: left;
+    font-size: 18px;
+    color: #adb1bd;
+}
+
+h4 {
+    display: block;
+    text-align: left;
+    font-size: 14px;
+    color: #adb1bd;
+}
+
+.card-container {
+    background-color: #272636;
+    border-radius: 8px;
+}
+
+.padded {
+    padding: 15px 15px 10px;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #272636;
+}
+
+.card-container::-webkit-scrollbar-track {
+    background: #3f3d52;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.list-item {
+    width: 100%;
+    border-bottom: 1px solid #2c2b3b;
+}
+
+footer {
+    text-align: center;
+}
+
+footer p {
+    color: #adb1bd;
+}
+
+tbody, td, tfoot, th, thead, tr {
+     border-color: transparent;
+     border-style: none;
+     border-width: 0;
+}
+
+.list-item td {
+    vertical-align:middle;
+}
+
+.dataTable > thead > tr > th[class*="sort"]:before,
+.dataTable > thead > tr > th[class*="sort"]:after {
+    content: "" !important;
+}
+
+.paginate_button  {
+    color: #adb1bd;
+}
+
+.page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    cursor: auto;
+    background-color: #272636;
+    border-color: #252734;
+}
+
+.page-item:first-child .page-link {
+    margin-left: 0;
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+}
+
+.page-item.active .page-link {
+    z-index: 3;
+    color: #adb1bd;
+    background-color: #3f3d52;
+    border-color: #3f3d52;
+}
+
+.page-link {
+    position: relative;
+    display: block;
+    padding: 0.5rem 0.75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #3f3d52;
+    background-color: #272636;
+    border: 1px solid #252734;
+}
+
+div.dataTables_wrapper div.dataTables_info, div.dataTables_wrapper div.dataTables_paginate {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    font-weight: 400;
+    text-align: left;
+}

@@ -1,0 +1,82 @@
+{% extends 'app.twig' %}
+{% block content %}
+    <div class="container">
+        <div class="card text-center">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path_for('panel.products') }}">{{ 'back' | trans }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path_for('panel') }}">{{ 'home' | trans }}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-header card-header-2" id="tabs">
+                <ul class="nav nav-pills card-header-pills" id="second-tab">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#tabs-1">{{ 'create_products' | trans }}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div id="tabs-1">
+                    <h3>{{ 'create_products' | trans }}</h3>
+                    <form action="{{ path_for('panel.product.create') }}" method="post">
+                        <div class="form-group">
+                            <label for="name"></label>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">{{ 'name' | trans }}</div>
+                                </div>
+                                <input type="text" class="form-control" id="name"
+                                       name="name"
+                                       placeholder="{{ 'lua_name' | trans }}">
+                            </div>
+
+
+                            <label for="code"></label>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">{{ 'code' | trans }}</div>
+                                </div>
+                                <textarea type="text" class="form-control" id="code"
+                                          name="code" placeholder="{{ 'lua_code' | trans }}"></textarea>
+                            </div>
+
+                            <label for="group_id"></label>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">{{ 'group' | trans }}</div>
+                                </div>
+                                <select class="form-control" id="group_id" name="group_id">
+                                    {% for group in groups %}
+                                        <option value="{{ group.id }}">
+                                            {{ group.name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="form-check" style="padding-bottom: 15px">
+                                <input class="form-check-input" type="checkbox" id="disable_obfuscation"
+                                       name="disable_obfuscation">
+                                <label class="form-check-label" for="disable_obfuscation"
+                                       style="display: contents;">
+                                    {{ 'disable_obfuscation' | trans }}
+                                </label>
+                            </div>
+
+                        </div>
+                        <div class="form-group mb-0 row">
+                            <div class="col-12 mt-2">
+                                <button class="btn btn-primary btn-block waves-effect waves-light" name="login"
+                                        type="submit">{{ 'create' | trans }} <i class="fas fa-sign-in-alt ml-1"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

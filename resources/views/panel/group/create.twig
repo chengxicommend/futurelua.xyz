@@ -1,0 +1,51 @@
+{% extends 'app.twig' %}
+
+{% block content %}
+    <div class="container">
+        <div class="card text-center">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path_for('panel.groups') }}">Back</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path_for('panel') }}">Home</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-header card-header-2" id="tabs">
+                <ul class="nav nav-pills card-header-pills" id="second-tab">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#tabs-1">Create Group</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div id="tabs-1">
+                    <div class="box" style="padding-bottom: 39px">
+                        <form action="{{ path_for('panel.group.create') }}" method="post">
+
+                            <div class="form-group" style="padding-bottom: 15px">
+                                <label for="name"></label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">Group Name</div>
+                                    </div>
+                                    <input type="text" class="form-control" id="name"
+                                           name="name"
+                                           placeholder="admin">
+                                </div>
+                            </div>
+                            <div class="form-group mb-0 row">
+                                <div class="col-12 mt-2">
+                                    <button class="btn btn-primary btn-block waves-effect waves-light" name="login"
+                                            type="submit">Create <i class="fas fa-sign-in-alt ml-1"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

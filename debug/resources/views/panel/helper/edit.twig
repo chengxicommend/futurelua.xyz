@@ -1,0 +1,75 @@
+{% extends 'app.twig' %}
+
+{% block content %}
+    <div class="container">
+        <div class="card text-center">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path_for('panel.helper') }}">Back</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path_for('panel') }}">Home</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-header card-header-2" id="tabs">
+                <ul class="nav nav-pills card-header-pills" id="second-tab">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#tabs-1">Edit helper</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div id="tabs-1">
+                    <form action="{{ path_for('panel.helper.edit', {id: helper.id}) }}" method="post">
+                        <h3>Edit Helper</h3>
+                        <div class="form-group">
+                            <label for="name"></label>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">Name</div>
+                                </div>
+                                <input type="text" class="form-control" id="name"
+                                       name="name" value="{{ helper.name }}"
+                                       placeholder="helper name">
+                            </div>
+
+
+                            <label for="code"></label>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">Code</div>
+                                </div>
+                                <textarea type="text" class="form-control" id="code"
+                                          name="code"
+                                          placeholder="helper code">{{ helper.code }}</textarea>
+                            </div>
+
+                            <label for="group_id"></label>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">Group</div>
+                                </div>
+                                <select class="form-control" id="group_id" name="group_id">
+                                    {% for group in groups %}
+                                        <option value="{{ group.id }}" {{ helper.group_id == group.id ? "selected " }}>
+                                            {{ group.name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group mb-0 row">
+                            <div class="col-12 mt-2">
+                                <button class="btn btn-primary btn-block waves-effect waves-light" name="login"
+                                        type="submit">Save <i class="fas fa-sign-in-alt ml-1"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
